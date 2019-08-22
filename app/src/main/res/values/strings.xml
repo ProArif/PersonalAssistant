@@ -9,4 +9,6 @@
     <string name="logo">logo</string>
     <string name="create_a_new_account">Create a new Account</string>
     <string name="email">Email</string>
+    <string name="register">Create Account</string>
+    <string name="cancel">Cancel</string>
 </resources>

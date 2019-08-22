@@ -5,6 +5,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="#254f6e"
+    android:id="@+id/loginActivity"
 tools:context=".LoginActivity">
 
 <LinearLayout
@@ -39,6 +40,7 @@ tools:context=".LoginActivity">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:id="@+id/email"
         android:layout_marginTop="5dp"
         android:background="@color/colorPrimaryDark"
         android:padding="10dp"
@@ -63,27 +65,29 @@ tools:context=".LoginActivity">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:id="@+id/password"
+        android:inputType="textPassword"
         android:background="@color/colorPrimaryDark"
         android:padding="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:inputType="" />
+        />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/forgot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/forgot_password"
         android:textStyle="normal"
         android:textSize="20sp"
         android:textColor="@android:color/black"
-        android:gravity="right"
+        android:gravity="end"
         android:linksClickable="true"
         android:layout_marginEnd="20dp"/>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/login"
@@ -96,7 +100,7 @@ tools:context=".LoginActivity">
         android:layout_marginTop="10dp"/>
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/createAcc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/create_a_new_account"
@@ -105,6 +109,7 @@ tools:context=".LoginActivity">
         android:textColor="@android:color/black"
         android:gravity="center"
         android:clickable="true"
+        android:focusable="true"
         android:layout_marginBottom="20dp"/>
 
 </LinearLayout>
