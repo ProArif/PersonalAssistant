@@ -44,8 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.password);
         btnLogin = findViewById(R.id.login);
 
-        edtRegE = findViewById(R.id.emailReg);
-        edtRegP = findViewById(R.id.passwordReg);
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -82,14 +81,19 @@ public class LoginActivity extends AppCompatActivity {
 
                 // Inflate and set the layout for the dialog
                 // Pass null as the parent view because its going in the dialog layout
-                builder.setView(inflater.inflate(R.layout.registration_dialog, null))
+                final View view = inflater.inflate(R.layout.registration_dialog, null);
+                builder.setView(view)
                         // Add action buttons
                         .setPositiveButton(R.string.register, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
+                                edtRegE = view.findViewById(R.id.emailReg);
+                                edtRegP = view.findViewById(R.id.passwordReg);
+
                                 emailReg = edtRegE.getText().toString();
                                 passwordReg = edtRegP.getText().toString();
-                                if (!emailReg.isEmpty() && !passwordReg.isEmpty() && !Patterns.EMAIL_ADDRESS.matcher(emailReg).matches()){
+
+                                if (emailReg.isEmpty() && passwordReg.isEmpty() && !Patterns.EMAIL_ADDRESS.matcher(emailReg).matches()){
                                     Toast.makeText(LoginActivity.this,"Please Enter email and password correctly",Toast.LENGTH_LONG).show();
 
                                 }else {
@@ -114,6 +118,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }).create();
                 builder.show();
+
 
             }
         });
@@ -148,6 +153,7 @@ public class LoginActivity extends AppCompatActivity {
     private void initialize(){
         email = edtEmail.getText().toString();
         password = edtPassword.getText().toString();
+
     }
 
     private boolean validate(){
@@ -156,7 +162,7 @@ public class LoginActivity extends AppCompatActivity {
             edtEmail.setError("Please enter your email correctly");
             valid = false;
         }
-        if (password.isEmpty() || password.length() <5){
+        if (password.isEmpty() && password.length() <5){
             edtPassword.setError("Please enter minimum 5 characters");
             valid = false;
         }

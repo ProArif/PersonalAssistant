@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="2">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/toDoText"
+        android:padding="5dp"
+        android:layout_weight="1"
+        android:text="Go to super market"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+    <TextClock
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/toDoClock"
+        android:text="5:10 AM"
+        android:textStyle="bold"
+        android:layout_weight="0.5"
+        android:padding="5dp"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/date"
+        android:layout_weight="0.5"
+        android:text="7 Feb"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        android:padding="5dp"/>
+
+
+
+</LinearLayout>
