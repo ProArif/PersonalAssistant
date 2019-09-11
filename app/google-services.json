@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "830695177188",
+    "firebase_url": "https://personalassistant-e5c70.firebaseio.com",
+    "project_id": "personalassistant-e5c70",
+    "storage_bucket": "personalassistant-e5c70.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830695177188:android:d86837b635936900",
+        "android_client_info": {
+          "package_name": "com.meraz.personalassistant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "830695177188-4s44mll8isb735rjgftf6uljpkdpp64i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.meraz.personalassistant",
+            "certificate_hash": "ba95445f5dc32de3ea37084cd6007ea844a8b1ee"
+          }
+        },
+        {
+          "client_id": "830695177188-3hs698dce36m6m9jvg75scp7dg4n6qt2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnP8L5kzQ9PlpOueMsqyA1v5k9zHu2ktM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "830695177188-3hs698dce36m6m9jvg75scp7dg4n6qt2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
