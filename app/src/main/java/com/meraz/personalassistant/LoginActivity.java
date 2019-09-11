@@ -158,12 +158,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean validate(){
 
-        if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        if (email.isEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             edtEmail.setError("Please enter your email correctly");
             valid = false;
         }
-        if (password.isEmpty() && password.length() <5){
-            edtPassword.setError("Please enter minimum 5 characters");
+        if (password.isEmpty()){
+            edtPassword.setError("Please enter password");
             valid = false;
         }
         return valid;

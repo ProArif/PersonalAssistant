@@ -11,6 +11,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,11 +26,16 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.meraz.personalassistant.R;
+import com.meraz.personalassistant.adapters.ToDoRecyclerAdapter;
+import com.meraz.personalassistant.adapters.ToDoTaskHelper;
 import com.meraz.personalassistant.alarm.AlarmReceiver;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import static android.content.Context.ALARM_SERVICE;
 
@@ -59,6 +66,10 @@ public class ToDoFragment extends Fragment {
     private Calendar calendar;
     private Context context;
     private String taskDescr;
+    private List<ToDoTaskHelper> mData;
+    private ToDoRecyclerAdapter adapter;
+    private RecyclerView task_recy;
+    FirebaseFirestore db ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +85,15 @@ public class ToDoFragment extends Fragment {
         view = inflater.inflate(R.layout.todo_fragment, container, false);
         context = getContext();
         addTask = view.findViewById(R.id.addTask);
+        db = FirebaseFirestore.getInstance();
+
+        task_recy = view.findViewById(R.id.taskRecycler);
+        mData = new ArrayList<>();
+        adapter = new ToDoRecyclerAdapter(mData);
+
+        task_recy.setHasFixedSize(true);
+        task_recy.setLayoutManager(new LinearLayoutManager(context));
+        task_recy.setAdapter(adapter);
 
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +130,7 @@ public class ToDoFragment extends Fragment {
                 alertDialog.dismiss();
             }
         });
+        taskDescr = et_task_desc.getText().toString();
 
         btn_alarm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,7 +157,7 @@ public class ToDoFragment extends Fragment {
                                 AlarmManager alarmManager = (AlarmManager) context.getApplicationContext().getSystemService(ALARM_SERVICE);
 
                                 alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(),pendingIntent);
-                                Toast.makeText(context, "Alarm Set.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, "Alarm is Set.", Toast.LENGTH_LONG).show();
                             }
                         }, mHour, mMinute, false);
                 timePickerDialog.show();
@@ -160,6 +181,13 @@ public class ToDoFragment extends Fragment {
                 }, year, month, day
                 );
                 datePickerDialog.show();
+            }
+        });
+
+        btn_add_task.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
