@@ -23,7 +23,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
-    boolean valid;
+    boolean valid = true;
 
     private TextView tvForgot,tvCreate;
     private EditText edtEmail,edtPassword,edtRegE,edtRegP;
@@ -126,8 +126,9 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                initialize();
                 if (validate()){
-                    initialize();
+
                     mAuth.signInWithEmailAndPassword(email,password)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override

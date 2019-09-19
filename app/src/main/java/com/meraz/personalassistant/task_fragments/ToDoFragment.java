@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,8 +26,15 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.meraz.personalassistant.R;
 import com.meraz.personalassistant.adapters.ToDoRecyclerAdapter;
 import com.meraz.personalassistant.adapters.ToDoTaskHelper;
@@ -35,7 +43,12 @@ import com.meraz.personalassistant.alarm.AlarmReceiver;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.annotation.Nullable;
 
 import static android.content.Context.ALARM_SERVICE;
 
@@ -44,7 +57,7 @@ public class ToDoFragment extends Fragment {
 
 
 
-    private OnFragmentInteractionListener mListener;
+    //private OnFragmentInteractionListener mListener;
 
     public ToDoFragment() {
         // Required empty public constructor
@@ -65,7 +78,7 @@ public class ToDoFragment extends Fragment {
     private int year, month, day;
     private Calendar calendar;
     private Context context;
-    private String taskDescr;
+    private String taskDescr,date,time;
     private List<ToDoTaskHelper> mData;
     private ToDoRecyclerAdapter adapter;
     private RecyclerView task_recy;
@@ -94,6 +107,19 @@ public class ToDoFragment extends Fragment {
         task_recy.setHasFixedSize(true);
         task_recy.setLayoutManager(new LinearLayoutManager(context));
         task_recy.setAdapter(adapter);
+
+        db.collection("tasks").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()){
+                    if (documentChange.getType() == DocumentChange.Type.ADDED){
+                        ToDoTaskHelper helper = documentChange.getDocument().toObject(ToDoTaskHelper.class);
+                        mData.add(helper);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
 
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,9 +162,9 @@ public class ToDoFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                final Calendar c = Calendar.getInstance();
-                int mHour = c.get(Calendar.HOUR_OF_DAY);
-                int mMinute = c.get(Calendar.MINUTE);
+                calendar = Calendar.getInstance();
+                int mHour = calendar.get(Calendar.HOUR_OF_DAY);
+                int mMinute = calendar.get(Calendar.MINUTE);
 
                 TimePickerDialog timePickerDialog = new TimePickerDialog(context,
                         new TimePickerDialog.OnTimeSetListener() {
@@ -148,15 +174,15 @@ public class ToDoFragment extends Fragment {
                                                   int minute) {
 
                                 txtTime.setText(hourOfDay + " : " + minute);
-                                c.set(Calendar.HOUR_OF_DAY,hourOfDay);
-                                c.set(Calendar.MINUTE,minute);
+                                calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
+                                calendar.set(Calendar.MINUTE,minute);
 
                                 Intent intent = new Intent(context, AlarmReceiver.class);
                                 PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT|  Intent.FILL_IN_DATA);
 
                                 AlarmManager alarmManager = (AlarmManager) context.getApplicationContext().getSystemService(ALARM_SERVICE);
 
-                                alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(),pendingIntent);
+                                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
                                 Toast.makeText(context, "Alarm is Set.", Toast.LENGTH_LONG).show();
                             }
                         }, mHour, mMinute, false);
@@ -166,21 +192,42 @@ public class ToDoFragment extends Fragment {
 
         });
 
+        final Calendar myCalendar = Calendar.getInstance();
+        final DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, month);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                SimpleDateFormat sdf = new SimpleDateFormat("EEE dd, MMM, yyyy", Locale.US);
+                String finalDate = sdf.format(myCalendar.getTime());
+                et_date.setText(finalDate);
+                date = et_date.getText().toString(); //store date
+            }
+        };
+
         et_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        context, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                        SimpleDateFormat sdf = new SimpleDateFormat("EEE dd, MMM, yyyy");
-                        calendar.set(year,month,dayOfMonth);
-                        String finalDate = sdf.format(calendar.getTime());
-                        et_date.setText(finalDate);
-                    }
-                }, year, month, day
-                );
-                datePickerDialog.show();
+//                DatePickerDialog datePickerDialog = new DatePickerDialog(
+//                        context, new DatePickerDialog.OnDateSetListener() {
+//                    @Override
+//                    public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+//                        SimpleDateFormat sdf = new SimpleDateFormat("EEE dd, MMM, yyyy", Locale.US);
+//                        calendar.set(year,month,dayOfMonth);
+//                        String finalDate = sdf.format(calendar.getTime());
+//                        et_date.setText(finalDate);
+//                    }
+//                }, year, month, day
+//                );
+//                datePickerDialog.show();
+
+                new DatePickerDialog(context, dateSetListener, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+
             }
         });
 
@@ -188,32 +235,51 @@ public class ToDoFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                time = txtTime.getText().toString();
+                taskDescr = et_task_desc.getText().toString();
+
+                ToDoTaskHelper taskHelper = new ToDoTaskHelper(taskDescr,date,time);
+                db.collection("tasks")
+                        .add(taskHelper)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                alertDialog.dismiss();
+                                Toast.makeText(context, "Task Added.", Toast.LENGTH_LONG).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
     }
 
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+//        if (mListener != null) {
+//            mListener.onFragmentInteraction(uri);
+//        }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+//        if (context instanceof OnFragmentInteractionListener) {
+//            mListener = (OnFragmentInteractionListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString()
+//                    + " must implement OnFragmentInteractionListener");
+//        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+//        mListener = null;
     }
 
     /**
@@ -226,8 +292,8 @@ public class ToDoFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+//    public interface OnFragmentInteractionListener {
+//        // TODO: Update argument type and name
+//        void onFragmentInteraction(Uri uri);
+//    }
 }
