@@ -14,7 +14,7 @@
         android:text="Go to super market"
         android:textColor="@android:color/black"
         android:textSize="20sp" />
-    <TextClock
+    <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/toDoClock"

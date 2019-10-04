@@ -5,12 +5,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextClock;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.meraz.personalassistant.R;
-
 import java.util.List;
 
 public class ToDoRecyclerAdapter extends RecyclerView.Adapter<ToDoRecyclerAdapter.ToDoDataViewHolder> {
@@ -49,7 +46,7 @@ public class ToDoRecyclerAdapter extends RecyclerView.Adapter<ToDoRecyclerAdapte
     public class ToDoDataViewHolder extends RecyclerView.ViewHolder{
 
         private TextView textToDo,textDate;
-        private TextClock textClock;
+        private TextView textClock;
 
         public ToDoDataViewHolder(@NonNull View itemView) {
             super(itemView);

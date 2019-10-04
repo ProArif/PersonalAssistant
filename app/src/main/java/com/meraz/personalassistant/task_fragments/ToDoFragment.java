@@ -16,19 +16,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
@@ -73,7 +73,6 @@ public class ToDoFragment extends Fragment {
 //        return fragment;
 //    }
 
-    private FloatingActionButton addTask;
     private View view;
     private int year, month, day;
     private Calendar calendar;
@@ -83,21 +82,24 @@ public class ToDoFragment extends Fragment {
     private ToDoRecyclerAdapter adapter;
     private RecyclerView task_recy;
     FirebaseFirestore db ;
+    private ToDoTaskHelper helper;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        helper = new ToDoTaskHelper();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        setHasOptionsMenu(true);
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.todo_fragment, container, false);
         context = getContext();
-        addTask = view.findViewById(R.id.addTask);
         db = FirebaseFirestore.getInstance();
 
         task_recy = view.findViewById(R.id.taskRecycler);
@@ -121,16 +123,18 @@ public class ToDoFragment extends Fragment {
             }
         });
 
-        addTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                showAddTaskDialog();
 
 
-            }
-        });
-        return view;
+//        addTask.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//
+//
+//
+//            }
+//        });
+          return view;
     }
 
     private void showAddTaskDialog() {
@@ -142,10 +146,10 @@ public class ToDoFragment extends Fragment {
 
         final EditText et_task_desc =  dialogView.findViewById(R.id.taskDesc);
         final EditText et_date = dialogView.findViewById(R.id.date);
+        final Button et_time = dialogView.findViewById(R.id.pickTime);
         Button btn_add_task = dialogView.findViewById(R.id.btn_add_task);
+        final TextView txtTime = dialogView.findViewById(R.id.tv_time);
         Button btn_cancel = dialogView.findViewById(R.id.btn_cancel);
-        ImageButton btn_alarm = dialogView.findViewById(R.id.setAlarm);
-        final TextView txtTime = dialogView.findViewById(R.id.txtTime);
 
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
@@ -157,41 +161,6 @@ public class ToDoFragment extends Fragment {
             }
         });
         taskDescr = et_task_desc.getText().toString();
-
-        btn_alarm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                calendar = Calendar.getInstance();
-                int mHour = calendar.get(Calendar.HOUR_OF_DAY);
-                int mMinute = calendar.get(Calendar.MINUTE);
-
-                TimePickerDialog timePickerDialog = new TimePickerDialog(context,
-                        new TimePickerDialog.OnTimeSetListener() {
-
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay,
-                                                  int minute) {
-
-                                txtTime.setText(hourOfDay + " : " + minute);
-                                calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
-                                calendar.set(Calendar.MINUTE,minute);
-
-                                Intent intent = new Intent(context, AlarmReceiver.class);
-                                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT|  Intent.FILL_IN_DATA);
-
-                                AlarmManager alarmManager = (AlarmManager) context.getApplicationContext().getSystemService(ALARM_SERVICE);
-
-                                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
-                                Toast.makeText(context, "Alarm is Set.", Toast.LENGTH_LONG).show();
-                            }
-                        }, mHour, mMinute, false);
-                timePickerDialog.show();
-
-            }
-
-        });
-
         final Calendar myCalendar = Calendar.getInstance();
         final DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -205,6 +174,7 @@ public class ToDoFragment extends Fragment {
                 String finalDate = sdf.format(myCalendar.getTime());
                 et_date.setText(finalDate);
                 date = et_date.getText().toString(); //store date
+                helper.setTaskDate(date);
             }
         };
 
@@ -231,14 +201,40 @@ public class ToDoFragment extends Fragment {
             }
         });
 
+        et_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+                int mHour = c.get(Calendar.HOUR_OF_DAY);
+                int mMinute = c.get(Calendar.MINUTE);
+
+
+
+                // Launch Time Picker Dialog
+                TimePickerDialog timePickerDialog = new TimePickerDialog(context,
+                        new TimePickerDialog.OnTimeSetListener() {
+
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay,
+                                                  int minute) {
+
+                                txtTime.setText(hourOfDay + ":" + minute);
+                                time = txtTime.getText().toString();
+                                helper.setTaskTime(time);
+
+                            }
+                        }, mHour, mMinute, false);
+                timePickerDialog.show();
+            }
+        });
+
         btn_add_task.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                time = txtTime.getText().toString();
                 taskDescr = et_task_desc.getText().toString();
-
-                ToDoTaskHelper taskHelper = new ToDoTaskHelper(taskDescr,date,time);
+                helper.setTaskDesc(taskDescr);
+                ToDoTaskHelper taskHelper = new ToDoTaskHelper(helper.getTaskDesc(),helper.getTaskDate(),helper.getTaskTime());
                 db.collection("tasks")
                         .add(taskHelper)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -257,6 +253,24 @@ public class ToDoFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_todo,menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.addTask:
+                showAddTaskDialog();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+
+    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

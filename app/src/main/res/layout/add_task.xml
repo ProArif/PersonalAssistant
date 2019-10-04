@@ -18,37 +18,39 @@
         android:id="@+id/date"
         android:inputType="date"
         android:clickable="true"
+        android:focusable="true"
         android:layout_margin="5dp"
         android:hint="@string/select_date"/>
 
-
-    <ImageButton
-        android:id="@+id/setAlarm"
-        android:layout_width="100dp"
-        android:layout_height="70dp"
-        android:layout_gravity="center"
-        android:padding="10dp"
-        android:tooltipText="Set Alarm"
-        android:src="@drawable/ic_add_alarm" />
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center">
-
+        android:layout_margin="5dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/pickTime"
+        android:clickable="true"
+        android:layout_weight="1"
+        android:focusable="true"
+        android:text="@string/select_time"
+        >
+    </Button>
         <TextView
-            android:id="@+id/txtTime"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:textColor="@android:color/black"/>
+            android:layout_weight="1"
+            android:textSize="23sp"
+            android:text="@string/_02_20_pm"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:padding="5dp"
+            android:id="@+id/tv_time">
 
+        </TextView>
     </LinearLayout>
-
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -66,7 +68,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add Task"
+            android:text="@string/add_task"
             android:id="@+id/btn_add_task"/>
 
     </LinearLayout>
