@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+
+    <EditText
+        android:id="@+id/et_expense_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/expense_title"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/et_expenseDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:focusableInTouchMode="false"
+        android:hint="@string/expense_date"
+        android:gravity="center"
+        android:inputType="none" />
+
+    <EditText
+        android:id="@+id/et_expenseAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="@string/expense_amount"
+        android:gravity="center"
+        android:inputType="numberDecimal" />
+
+    <Button
+        android:id="@+id/btn_addExpense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="#CDE1CF"
+        android:background="#619CC1"
+        android:layout_marginTop="28dp"
+        android:text="@string/add_expense"
+        android:textAllCaps="false"/>
+
+</LinearLayout>

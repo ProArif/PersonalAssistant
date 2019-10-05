@@ -3,12 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="70dp"
     tools:context=".task_fragments.ExpensesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/single_exp_item"
+        android:scrollbars="vertical"
+        android:scrollbarStyle="insideInset"
+        android:id="@+id/expRecycler"/>
 
 </FrameLayout>

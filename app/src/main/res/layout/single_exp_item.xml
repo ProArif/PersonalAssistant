@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        app:cardCornerRadius="7dp">
+
+
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:background="@android:color/darker_gray"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif"
+                android:text="@string/_1"
+                android:id="@+id/expenseRankTV"/>
+
+            <TextView
+                android:id="@+id/tv_expenseTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/expenseRankTV"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp"
+                android:textStyle="bold|italic" />
+
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/expenseRankTV"
+                android:fontFamily="sans-serif"
+                android:text="@string/date"
+                android:layout_marginTop="8dp"
+                android:textSize="15sp"/>
+
+
+            <TextView
+                android:id="@+id/tv_expenseDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/expenseRankTV"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@+id/tv"
+                android:fontFamily="sans-serif"
+                android:text="@string/wed_12_2018"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold|italic" />
+
+
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/expenseRankTV"
+                android:text="@string/amount"
+                android:fontFamily="sans-serif"
+                android:layout_marginTop="8dp"
+                android:layout_toStartOf="@+id/tv_expenseAmount"
+                android:textSize="15sp"
+                android:layout_marginEnd="4dp"/>
+
+
+            <TextView
+                android:id="@+id/tv_expenseAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/expenseRankTV"
+                android:text="@string/_10000"
+                android:textStyle="bold|italic"
+                android:textColor="#FFFFFF"
+                android:fontFamily="sans-serif"
+                android:layout_marginTop="8dp"
+                android:layout_alignParentEnd="true"
+                android:textSize="15sp"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

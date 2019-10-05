@@ -19,4 +19,13 @@
     <string name="add_task">Add Task</string>
     <string name="select_time">Select Time</string>
     <string name="_02_20_pm">02:20 PM</string>
+    <string name="expense_title">Expense Title</string>
+    <string name="add_expense">Add Expense</string>
+    <string name="expense_amount">Expense Amount</string>
+    <string name="expense_date">Expense Date</string>
+    <string name="amount">Amount:</string>
+    <string name="_10000">10000</string>
+    <string name="date">Date:</string>
+    <string name="wed_12_2018">wed 12 2018</string>
+    <string name="_1">1.</string>
 </resources>

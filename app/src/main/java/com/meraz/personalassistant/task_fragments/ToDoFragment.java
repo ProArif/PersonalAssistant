@@ -40,6 +40,7 @@ import com.meraz.personalassistant.adapters.ToDoRecyclerAdapter;
 import com.meraz.personalassistant.adapters.ToDoTaskHelper;
 import com.meraz.personalassistant.alarm.AlarmReceiver;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -219,8 +220,10 @@ public class ToDoFragment extends Fragment {
                                                   int minute) {
 
                                 txtTime.setText(hourOfDay + ":" + minute);
+                                DateFormat dateFormat = new SimpleDateFormat("hh.mm aa");
                                 time = txtTime.getText().toString();
-                                helper.setTaskTime(time);
+                                String finaltime = dateFormat.format(c.getTime());
+                                helper.setTaskTime(finaltime);
 
                             }
                         }, mHour, mMinute, false);
