@@ -30,6 +30,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.meraz.personalassistant.R;
 import com.meraz.personalassistant.adapters.ExpenseAdapter;
@@ -99,7 +100,7 @@ public class ExpensesFragment extends Fragment {
         exp_recycler.setLayoutManager(new LinearLayoutManager(context));
         exp_recycler.setAdapter(adapter);
 
-        db.collection("expenses").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection("expenses").orderBy("exp_date", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()){
