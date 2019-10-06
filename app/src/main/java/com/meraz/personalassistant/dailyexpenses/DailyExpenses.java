@@ -1,19 +1,40 @@
 package com.meraz.personalassistant.dailyexpenses;
 
 public class DailyExpenses {
-    String exp_title;
-    String exp_amount;
-    String exp_date;
-    String exp_id;
+    private String exp_title;
+    private String exp_amount;
+    private String exp_date;
+    private String exp_id;
+    private String nodeKey;
+    private String user_id;
 
-    public DailyExpenses(String exp_id, String exp_title, String exp_amount, String exp_date) {
+    public DailyExpenses(String exp_id, String exp_title, String exp_amount, String exp_date,String nodeKey,String user_id) {
         this.exp_title = exp_title;
         this.exp_amount = exp_amount;
         this.exp_date = exp_date;
         this.exp_id = exp_id;
+        this.nodeKey = nodeKey;
+        this.user_id = user_id;
     }
 
+
     public DailyExpenses() {
+    }
+
+    public String getNodeKey() {
+        return nodeKey;
+    }
+
+    public void setNodeKey(String nodeKey) {
+        this.nodeKey = nodeKey;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
     public String getExp_id() {

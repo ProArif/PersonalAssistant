@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,18 +28,24 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.meraz.personalassistant.R;
 import com.meraz.personalassistant.adapters.ToDoRecyclerAdapter;
 import com.meraz.personalassistant.adapters.ToDoTaskHelper;
 import com.meraz.personalassistant.alarm.AlarmReceiver;
+import com.meraz.personalassistant.dailyexpenses.DailyExpenses;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -49,7 +56,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.annotation.Nullable;
 
 import static android.content.Context.ALARM_SERVICE;
 
@@ -78,19 +84,23 @@ public class ToDoFragment extends Fragment {
     private int year, month, day;
     private Calendar calendar;
     private Context context;
-    private String taskDescr,date,time;
+    private String taskDescr,date,time,uid;
     private List<ToDoTaskHelper> mData;
     private ToDoRecyclerAdapter adapter;
     private RecyclerView task_recy;
-    FirebaseFirestore db ;
     private ToDoTaskHelper helper;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+    private FirebaseDatabase database;
+    private DatabaseReference reference;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        helper = new ToDoTaskHelper();
+
+
     }
 
     @Override
@@ -98,31 +108,68 @@ public class ToDoFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         setHasOptionsMenu(true);
+        helper = new ToDoTaskHelper();
+        database = FirebaseDatabase.getInstance();
+
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        if (user != null) {
+            uid = user.getUid();
+            reference = database.getReference("tasks");
+            reference.keepSynced(true);
+        }
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.todo_fragment, container, false);
         context = getContext();
-        db = FirebaseFirestore.getInstance();
+//        db = FirebaseFirestore.getInstance();
 
         task_recy = view.findViewById(R.id.taskRecycler);
         mData = new ArrayList<>();
-        adapter = new ToDoRecyclerAdapter(mData);
+        adapter = new ToDoRecyclerAdapter(context,mData);
 
         task_recy.setHasFixedSize(true);
         task_recy.setLayoutManager(new LinearLayoutManager(context));
         task_recy.setAdapter(adapter);
 
-        db.collection("tasks").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference();
+        Query query = reference1.child("tasks")
+                .orderByChild("user_id").equalTo(user.getUid());
+
+        query.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()){
-                    if (documentChange.getType() == DocumentChange.Type.ADDED){
-                        ToDoTaskHelper helper = documentChange.getDocument().toObject(ToDoTaskHelper.class);
-                        mData.add(helper);
-                        adapter.notifyDataSetChanged();
-                    }
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mData.clear();
+
+                for (DataSnapshot items : dataSnapshot.getChildren()) {
+
+                    ToDoTaskHelper helper = items.getValue(ToDoTaskHelper.class);
+                    mData.add(helper);
+                    adapter.notifyDataSetChanged();
+                    Log.e("items found",items.toString());
+                    Log.e("data found", String.valueOf(adapter.getItemCount()));
+
                 }
+                Log.e("entered","value event listener entered");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(context,databaseError.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
+
+//        db.collection("tasks").addSnapshotListener(new EventListener<QuerySnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+//                for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()){
+//                    if (documentChange.getType() == DocumentChange.Type.ADDED){
+//                        ToDoTaskHelper helper = documentChange.getDocument().toObject(ToDoTaskHelper.class);
+//                        mData.add(helper);
+//                        adapter.notifyDataSetChanged();
+//                    }
+//                }
+//            }
+//        });
 
 
 
@@ -237,21 +284,38 @@ public class ToDoFragment extends Fragment {
 
                 taskDescr = et_task_desc.getText().toString();
                 helper.setTaskDesc(taskDescr);
-                ToDoTaskHelper taskHelper = new ToDoTaskHelper(helper.getTaskDesc(),helper.getTaskDate(),helper.getTaskTime());
-                db.collection("tasks")
-                        .add(taskHelper)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                alertDialog.dismiss();
-                                Toast.makeText(context, "Task Added.", Toast.LENGTH_LONG).show();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
+                String key = reference.push().getKey();
+                ToDoTaskHelper taskHelper = new ToDoTaskHelper(helper.getTaskDesc(),
+                        helper.getTaskDate(),helper.getTaskTime(),key,user.getUid());
+
+
+                reference.child(key).setValue(taskHelper).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            alertDialog.dismiss();
+                            Toast.makeText(context, "Task Added", Toast.LENGTH_LONG).show();
+                        }else {
+                            Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
+//                db.collection("tasks").document(uid)
+//                        .set(taskHelper)
+//                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        alertDialog.dismiss();
+//                        Toast.makeText(context, "Task" +
+//                                " Added.", Toast.LENGTH_LONG).show();
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+//
+//                    }
+//                });
             }
         });
     }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.meraz.personalassistant.task_fragments.ExpensesFragment;
+import com.meraz.personalassistant.task_fragments.HomeFragment;
 import com.meraz.personalassistant.task_fragments.ToDoFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
+                    loadFragment(new HomeFragment());
                     return true;
                 case R.id.navigation_toDo:
                     loadFragment(new ToDoFragment());

@@ -1,5 +1,6 @@
 package com.meraz.personalassistant.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,10 @@ import java.util.List;
 public class ToDoRecyclerAdapter extends RecyclerView.Adapter<ToDoRecyclerAdapter.ToDoDataViewHolder> {
 
     public List<ToDoTaskHelper> data;
+    private Context context;
 
-    public ToDoRecyclerAdapter(List<ToDoTaskHelper> data) {
+    public ToDoRecyclerAdapter(Context context,List<ToDoTaskHelper> data) {
+        this.context = context;
         this.data = data;
     }
 
@@ -22,7 +25,8 @@ public class ToDoRecyclerAdapter extends RecyclerView.Adapter<ToDoRecyclerAdapte
     @NonNull
     @Override
     public ToDoDataViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.to_do_item,parent,false);
+        View view;
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.to_do_item,parent,false);
 
         helper = new ToDoTaskHelper();
         return new ToDoDataViewHolder(view);
@@ -30,10 +34,11 @@ public class ToDoRecyclerAdapter extends RecyclerView.Adapter<ToDoRecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ToDoDataViewHolder holder, int position) {
-
-        holder.textToDo.setText(data.get(position).getTaskDesc());
-        holder.textDate.setText(data.get(position).getTaskDate());
-        holder.textClock.setText(data.get(position).getTaskTime());
+        if (data != null) {
+            holder.textToDo.setText(data.get(position).getTaskDesc());
+            holder.textDate.setText(data.get(position).getTaskDate());
+            holder.textClock.setText(data.get(position).getTaskTime());
+        }
 
     }
 

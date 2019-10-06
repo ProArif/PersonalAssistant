@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,20 +24,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.meraz.personalassistant.R;
 import com.meraz.personalassistant.adapters.ExpenseAdapter;
 import com.meraz.personalassistant.adapters.ToDoTaskHelper;
 import com.meraz.personalassistant.dailyexpenses.DailyExpenses;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,7 +47,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import javax.annotation.Nullable;
+
 
 
 public class ExpensesFragment extends Fragment {
@@ -54,10 +57,14 @@ public class ExpensesFragment extends Fragment {
     private ExpenseAdapter adapter;
     private List<DailyExpenses> mData;
     private RecyclerView exp_recycler;
-    private FirebaseFirestore db ;
     private int year, month, day;
     private Calendar calendar;
-    private String title,date,amount;
+    private String title,date,amount,uid;
+    private FirebaseUser user;
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private DatabaseReference reference;
+
 
 
 //    private OnFragmentInteractionListener mListener;
@@ -79,40 +86,99 @@ public class ExpensesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        exp_helper = new DailyExpenses();
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_expenses, container, false);
-        setHasOptionsMenu(true);
+            View view;
+            setHasOptionsMenu(true);
 
-        context = getContext();
-        db = FirebaseFirestore.getInstance();
-        exp_recycler = view.findViewById(R.id.expRecycler);
-        mData = new ArrayList<>();
-        adapter = new ExpenseAdapter(mData);
-        exp_recycler.setHasFixedSize(true);
-        exp_recycler.setLayoutManager(new LinearLayoutManager(context));
-        exp_recycler.setAdapter(adapter);
-
-        db.collection("expenses").orderBy("exp_date", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()){
-                    if (documentChange.getType() == DocumentChange.Type.ADDED){
-                        DailyExpenses helper = documentChange.getDocument().toObject(DailyExpenses.class);
-                        mData.add(helper);
-                        adapter.notifyDataSetChanged();
-                    }
-                }
+            exp_helper = new DailyExpenses();
+            mAuth = FirebaseAuth.getInstance();
+            database = FirebaseDatabase.getInstance();
+            user = mAuth.getCurrentUser();
+            if (user != null) {
+                uid = user.getUid();
+                reference = database.getReference("expenses");
+                reference.keepSynced(true);
             }
-        });
-        return view;
+        // Inflate the layout for this fragment
+            view = inflater.inflate(R.layout.fragment_expenses, container, false);
+            context = getContext();
+            exp_recycler = view.findViewById(R.id.expRecycler);
+
+            //db = FirebaseFirestore.getInstance();
+
+            mData = new ArrayList<>();
+            adapter = new ExpenseAdapter(context,mData);
+            exp_recycler.setHasFixedSize(true);
+
+            exp_recycler.setLayoutManager(new LinearLayoutManager(context));
+            exp_recycler.setAdapter(adapter);
+
+            DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference();
+            Query query = reference1.child("expenses")
+                    .orderByChild("user_id").equalTo(user.getUid());
+            query.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    mData.clear();
+
+                    for (DataSnapshot items : dataSnapshot.getChildren()) {
+                        DailyExpenses expenses = items.getValue(DailyExpenses.class);
+                        mData.add(expenses);
+                        adapter.notifyDataSetChanged();
+                        Log.e("items found",items.toString());
+                        Log.e("data found", String.valueOf(adapter.getItemCount()));
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(context, databaseError.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+
+
+//        db.collection("expenses").document(uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//            @Override
+//            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                //adapter.notifyDataSetChanged();
+//                String amount = documentSnapshot.getString("exp_amount");
+//                String title = documentSnapshot.getString("exp_title");
+//                String date = documentSnapshot.getString("exp_date");
+//                DailyExpenses helper = new DailyExpenses(title,amount,date);
+//                mData.add(helper);
+//                adapter.notifyDataSetChanged();
+//                Toast.makeText(context,"Successfully loaded",Toast.LENGTH_LONG).show();
+//
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//               Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+//            }
+//        });
+            //.addSnapshotListener(new EventListener<QuerySnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+//                for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()){
+//                    if (documentChange.getType() == DocumentChange.Type.ADDED){
+//                        DailyExpenses helper = documentChange.getDocument().toObject(DailyExpenses.class);
+//                        mData.add(helper);
+//                        adapter.notifyDataSetChanged();
+//                    }
+//                }
+//           }
+            //      });
+
+
+//        docRef = db.collection("expenses").document(uid);
+
+
+            return view;
     }
 
     @Override
@@ -190,20 +256,34 @@ public class ExpensesFragment extends Fragment {
                 amount = et_exp_amount.getText().toString();
                 exp_helper.setExp_amount(amount);
 
-                DailyExpenses exp = new DailyExpenses(exp_helper.getExp_id(),exp_helper.getExp_title(),exp_helper.getExp_amount(),exp_helper.getExp_date());
-                db.collection("expenses").add(exp).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                String key = reference.push().getKey();
+                DailyExpenses exp = new DailyExpenses(exp_helper.getExp_id(),exp_helper.getExp_title(),
+                        exp_helper.getExp_amount(),exp_helper.getExp_date(),key,user.getUid());
+//                db.collection("expenses").document(uid).set(exp).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        alertDialog.dismiss();
+//                        Toast.makeText(context, "Expense Added.", Toast.LENGTH_LONG).show();
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+//
+//                    }
+//                });
+                reference.child(key).setValue(exp).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        alertDialog.dismiss();
-                        Toast.makeText(context, "Expense Added.", Toast.LENGTH_LONG).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            alertDialog.dismiss();
+                            Toast.makeText(context, "Expense Added", Toast.LENGTH_LONG).show();
+                        }else {
+                            Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
+
             }
         });
 

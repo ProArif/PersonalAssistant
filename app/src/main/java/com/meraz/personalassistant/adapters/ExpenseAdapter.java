@@ -22,12 +22,14 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseD
 
     private Context context;
     private List<DailyExpenses> expenses;
-    private DailyExpenses dailyExpenses;
 
-    public ExpenseAdapter(List<DailyExpenses> expenses) {
 
+    public ExpenseAdapter(Context context,List<DailyExpenses> expenses) {
+
+        this.context = context;
         this.expenses = expenses;
     }
+    private DailyExpenses dailyExpenses;
 
     @NonNull
     @Override
@@ -41,10 +43,13 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseD
     @Override
     public void onBindViewHolder(@NonNull ExpenseDataViewHolder holder, int position) {
 
-        holder.tv_expenseTitle.setText(expenses.get(position).getExp_title());
-        holder.tv_expenseRank.setText(String.format(Locale.US,"%d.", position + 1));
-        holder.tv_expenseDate.setText(expenses.get(position).getExp_date());
-        holder.tv_expenseAmount.setText(expenses.get(position).getExp_amount());
+        if (expenses !=null){
+            holder.tv_expenseTitle.setText(expenses.get(position).getExp_title());
+            holder.tv_expenseRank.setText(String.format(Locale.US,"%d.", position + 1));
+            holder.tv_expenseDate.setText(expenses.get(position).getExp_date());
+            holder.tv_expenseAmount.setText(expenses.get(position).getExp_amount());
+        }
+
     }
 
     @Override
