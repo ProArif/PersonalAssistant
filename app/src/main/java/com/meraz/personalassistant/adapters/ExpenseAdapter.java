@@ -22,7 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.meraz.personalassistant.R;
-import com.meraz.personalassistant.dailyexpenses.DailyExpenses;
+import com.meraz.personalassistant.helpers.DailyExpenses;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;

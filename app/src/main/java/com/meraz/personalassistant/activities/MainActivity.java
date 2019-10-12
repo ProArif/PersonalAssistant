@@ -1,11 +1,12 @@
-package com.meraz.personalassistant;
+package com.meraz.personalassistant.activities;
 
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.meraz.personalassistant.task_fragments.ExpensesFragment;
-import com.meraz.personalassistant.task_fragments.HomeFragment;
-import com.meraz.personalassistant.task_fragments.ToDoFragment;
+import com.meraz.personalassistant.R;
+import com.meraz.personalassistant.fragments.ExpensesFragment;
+import com.meraz.personalassistant.fragments.PrayerTimeFragment;
+import com.meraz.personalassistant.fragments.ToDoFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    loadFragment(new HomeFragment());
+                    loadFragment(new PrayerTimeFragment());
                     return true;
                 case R.id.navigation_toDo:
                     loadFragment(new ToDoFragment());

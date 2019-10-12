@@ -1,4 +1,4 @@
-package com.meraz.personalassistant.dailyexpenses;
+package com.meraz.personalassistant.helpers;
 
 public class DailyExpenses {
     private String exp_title;

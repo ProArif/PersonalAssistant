@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.meraz.personalassistant.R;
+import com.meraz.personalassistant.helpers.ToDoTaskHelper;
+
 import java.util.List;
 
 public class ToDoRecyclerAdapter extends RecyclerView.Adapter<ToDoRecyclerAdapter.ToDoDataViewHolder> {

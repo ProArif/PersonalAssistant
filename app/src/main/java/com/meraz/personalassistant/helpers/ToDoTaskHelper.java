@@ -1,4 +1,4 @@
-package com.meraz.personalassistant.adapters;
+package com.meraz.personalassistant.helpers;
 
 public class ToDoTaskHelper {
 
