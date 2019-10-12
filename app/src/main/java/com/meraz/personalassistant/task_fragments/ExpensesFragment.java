@@ -12,15 +12,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,6 +67,8 @@ public class ExpensesFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference reference;
+    private float initialX, initialY;
+    private  View view;
 
 
 
@@ -91,7 +96,7 @@ public class ExpensesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-            View view;
+
             setHasOptionsMenu(true);
 
             exp_helper = new DailyExpenses();
@@ -140,8 +145,6 @@ public class ExpensesFragment extends Fragment {
                     Toast.makeText(context, databaseError.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
-
-
 //        db.collection("expenses").document(uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
 //            @Override
 //            public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -176,10 +179,12 @@ public class ExpensesFragment extends Fragment {
 
 
 //        docRef = db.collection("expenses").document(uid);
-
-
             return view;
     }
+
+
+
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

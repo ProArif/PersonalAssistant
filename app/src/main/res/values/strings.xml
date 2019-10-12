@@ -28,4 +28,6 @@
     <string name="date">Date:</string>
     <string name="wed_12_2018">wed 12 2018</string>
     <string name="_1">1.</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 </resources>
