@@ -118,17 +118,16 @@ public class ExpensesFragment extends Fragment {
             mData = new ArrayList<>();
             adapter = new ExpenseAdapter(context,mData);
             exp_recycler.setHasFixedSize(true);
-
             exp_recycler.setLayoutManager(new LinearLayoutManager(context));
+            adapter.notifyDataSetChanged();
             exp_recycler.setAdapter(adapter);
-
             DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference();
             Query query = reference1.child("expenses")
                     .orderByChild("user_id").equalTo(user.getUid());
             query.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    mData.clear();
+                     mData.clear();
 
                     for (DataSnapshot items : dataSnapshot.getChildren()) {
                         DailyExpenses expenses = items.getValue(DailyExpenses.class);

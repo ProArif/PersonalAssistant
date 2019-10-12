@@ -68,61 +68,6 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseD
     private void showAddExpenseDialog() {
 
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View dialogView = inflater.inflate(R.layout.expense_dialog,null);
-        builder.setView(dialogView);
-
-        final EditText et_exp_title =  dialogView.findViewById(R.id.et_expense_title);
-        final EditText et_exp_date = dialogView.findViewById(R.id.et_expenseDate);
-        final EditText et_exp_amount = dialogView.findViewById(R.id.et_expenseAmount);
-        Button btn_add_exp = dialogView.findViewById(R.id.btn_addExpense);
-
-        final AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-
-        final Calendar myCalendar = Calendar.getInstance();
-
-        et_exp_date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
-                et_exp_date.setText(dateFormat.format(new Date()));
-                date = et_exp_date.getText().toString();
-                dailyExpenses.setExp_date(date);
-
-            }
-        });
-
-        btn_add_exp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                title = et_exp_title.getText().toString();
-                dailyExpenses.setExp_title(title);
-                amount = et_exp_amount.getText().toString();
-                dailyExpenses.setExp_amount(amount);
-
-                String key = reference.push().getKey();
-                DailyExpenses exp = new DailyExpenses(dailyExpenses.getExp_id(),dailyExpenses.getExp_title(),
-                        dailyExpenses.getExp_amount(),dailyExpenses.getExp_date(),key,user.getUid());
-
-                reference.child(key).setValue(exp).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            alertDialog.dismiss();
-                            Toast.makeText(context, "Expense Edited", Toast.LENGTH_LONG).show();
-                        }else {
-                            Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-
-            }
-        });
-
-
 
 
     }
@@ -152,7 +97,64 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseD
                             switch (id){
                                 case R.id.edit_item:
 
-                                    showAddExpenseDialog();
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                                    View dialogView = inflater.inflate(R.layout.expense_dialog,null);
+                                    builder.setView(dialogView);
+
+                                    final EditText et_exp_title =  dialogView.findViewById(R.id.et_expense_title);
+                                    final EditText et_exp_date = dialogView.findViewById(R.id.et_expenseDate);
+                                    final EditText et_exp_amount = dialogView.findViewById(R.id.et_expenseAmount);
+                                    Button btn_add_exp = dialogView.findViewById(R.id.btn_addExpense);
+
+                                    final AlertDialog alertDialog = builder.create();
+                                    //show existing text to edit
+                                    et_exp_title.setText(expenses.get(position).getExp_title());
+                                    et_exp_date.setText(expenses.get(position).getExp_date());
+                                    et_exp_amount.setText(expenses.get(position).getExp_amount());
+                                    alertDialog.show();
+
+                                    final Calendar myCalendar = Calendar.getInstance();
+
+                                    et_exp_date.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+
+                                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
+                                            et_exp_date.setText(dateFormat.format(new Date()));
+                                            date = et_exp_date.getText().toString();
+                                            dailyExpenses.setExp_date(date);
+
+                                        }
+                                    });
+
+                                    btn_add_exp.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            title = et_exp_title.getText().toString();
+                                            dailyExpenses.setExp_title(title);
+                                            amount = et_exp_amount.getText().toString();
+                                            date = et_exp_date.getText().toString();
+                                            dailyExpenses.setExp_amount(amount);
+
+                                            String key = expenses.get(position).getNodeKey();
+                                            DailyExpenses exp = new DailyExpenses(dailyExpenses.getExp_id(),dailyExpenses.getExp_title(),
+                                                    dailyExpenses.getExp_amount(),dailyExpenses.getExp_date(),key,user.getUid());
+
+                                            reference.child(expenses.get(position).getNodeKey()).setValue(exp).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()){
+                                                        alertDialog.dismiss();
+                                                        Toast.makeText(context, "Expense Edited", Toast.LENGTH_LONG).show();
+                                                    }else {
+                                                        Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                                    }
+                                                }
+                                            });
+
+                                        }
+                                    });
                                     return true;
 
                                 case R.id.delete_item:
@@ -161,6 +163,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseD
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()){
+
                                                 Toast.makeText(context,"deleted Successfully",Toast.LENGTH_LONG).show();
                                             }else {
                                                 Toast.makeText(context,task.getException().getMessage(),Toast.LENGTH_LONG).show();
