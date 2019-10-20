@@ -11,6 +11,7 @@
     <string name="email">Email</string>
     <string name="register">Create Account</string>
     <string name="cancel">Cancel</string>
+    <string name="prayer_api">f8b1de686f9d4bfa0fcf8ecb6b7adad3</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -30,4 +31,9 @@
     <string name="_1">1.</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="maghrib">Maghrib</string>
+    <string name="dhuhr">Dhuhr</string>
+    <string name="fazr">Fazr</string>
+    <string name="asr">Asr</string>
+    <string name="isha">Isha</string>
 </resources>

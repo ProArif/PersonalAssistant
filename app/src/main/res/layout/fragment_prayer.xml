@@ -1,11 +1,279 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.PrayerTimeFragment">
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:id="@+id/search_layout">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/edtCity"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_weight="2"
+                android:textColor="@android:color/black"
+                android:textSize="25sp"
+                android:hint="Enter your City"
+                android:textStyle="bold">
+
+            </EditText>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnSearch"
+                android:text="Search"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textSize="25sp"
+                android:textStyle="bold">
+
+            </Button>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_margin="7dp"
+            android:id="@+id/loc_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:textSize="25sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/loc"
+                android:text="Bangladesh"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:textSize="25sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prayer Timings"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@android:color/black">
+
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:id="@+id/fazr_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fazr"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:textSize="25sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fazr"
+                android:text="4:41 AM"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:textSize="25sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:id="@+id/zohr_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dhuhr"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:textSize="25sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/zohr"
+                android:text="4:41 AM"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:textSize="25sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:id="@+id/achr_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/asr"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:textSize="25sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/achr"
+                android:text="4:41 AM"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:textSize="25sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:id="@+id/magrib_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/maghrib"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:textSize="25sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/magrib"
+                android:text="4:41 AM"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:textSize="25sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:id="@+id/esa_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/isha"
+                android:padding="10dp"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:textSize="25sp"
+                android:gravity="center"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/esa"
+                android:text="4:41 AM"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:textSize="25sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 
-</FrameLayout>
+</ScrollView>
