@@ -8,12 +8,12 @@
 
     <item
         android:id="@+id/navigation_toDo"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/todo_task"
         android:title="@string/title_dashboard" />
 
     <item
         android:id="@+id/navigation_expenses"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/expense"
         android:title="@string/title_notifications" />
 
 </menu>

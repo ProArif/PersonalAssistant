@@ -36,4 +36,8 @@
     <string name="fazr">Fazr     </string>
     <string name="asr">Asr    </string>
     <string name="isha">Isha   </string>
+    <string name="search">Search</string>
+    <string name="enter_your_city">Enter your City</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="enter_your_registered_email">Enter your registered email</string>
 </resources>

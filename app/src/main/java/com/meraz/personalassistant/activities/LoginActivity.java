@@ -55,19 +55,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (!email.isEmpty()){
-                    mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            View view = findViewById(R.id.loginActivity);
-
-                            if (task.isSuccessful()){
-                                Snackbar.make(view,"Password Reset Email send.Please check your email",Snackbar.LENGTH_LONG)
-                                        .show();
-                            }else Snackbar.make(view,task.getException().toString(),Snackbar.LENGTH_LONG).show();
-                        }
-                    });
-                }else Toast.makeText(LoginActivity.this,"Enter your email first",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(LoginActivity.this,ResetPassActivity.class));
             }
         });
 

@@ -42,8 +42,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textColor="#CDE1CF"
+        android:textColor="@color/colorAccent"
         android:background="#619CC1"
+        android:padding="10dp"
         android:layout_marginTop="28dp"
         android:text="@string/add_expense"
         android:textAllCaps="false"/>

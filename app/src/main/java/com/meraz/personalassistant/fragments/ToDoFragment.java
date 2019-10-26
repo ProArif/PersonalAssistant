@@ -1,5 +1,6 @@
 package com.meraz.personalassistant.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -245,7 +246,6 @@ public class ToDoFragment extends Fragment {
                 int mMinute = c.get(Calendar.MINUTE);
 
 
-
                 // Launch Time Picker Dialog
                 TimePickerDialog timePickerDialog = new TimePickerDialog(context,
                         new TimePickerDialog.OnTimeSetListener() {
@@ -272,6 +272,9 @@ public class ToDoFragment extends Fragment {
 
                 taskDescr = et_task_desc.getText().toString();
                 helper.setTaskDesc(taskDescr);
+                time = txtTime.getText().toString();
+                helper.setTaskTime(time);
+
                 String key = reference.push().getKey();
                 ToDoTaskHelper taskHelper = new ToDoTaskHelper(helper.getTaskDesc(),
                         helper.getTaskDate(),helper.getTaskTime(),key,user.getUid());

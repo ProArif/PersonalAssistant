@@ -1,5 +1,6 @@
 package com.meraz.personalassistant.adapters;
 
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +28,7 @@ import com.meraz.personalassistant.R;
 import com.meraz.personalassistant.helpers.DailyExpenses;
 import com.meraz.personalassistant.helpers.ToDoTaskHelper;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -100,6 +103,7 @@ public class ToDoRecyclerAdapter extends RecyclerView.Adapter<ToDoRecyclerAdapte
                                     Button btn_add_task = dialogView.findViewById(R.id.btn_add_task);
                                     Button btn_cancel = dialogView.findViewById(R.id.btn_cancel);
 
+                                    Button btn_time = dialogView.findViewById(R.id.pickTime);
                                     final AlertDialog alertDialog = builder.create();
                                     //show existing text to edit
                                     textToDo.setText(data.get(position).getTaskDesc());
@@ -124,6 +128,34 @@ public class ToDoRecyclerAdapter extends RecyclerView.Adapter<ToDoRecyclerAdapte
                                         @Override
                                         public void onClick(View v) {
                                             alertDialog.dismiss();
+                                        }
+                                    });
+
+                                    btn_time.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            final Calendar c = Calendar.getInstance();
+                                            int mHour = c.get(Calendar.HOUR_OF_DAY);
+                                            int mMinute = c.get(Calendar.MINUTE);
+
+
+                                            // Launch Time Picker Dialog
+                                            TimePickerDialog timePickerDialog = new TimePickerDialog(context,
+                                                    new TimePickerDialog.OnTimeSetListener() {
+
+                                                        @Override
+                                                        public void onTimeSet(TimePicker view, int hourOfDay,
+                                                                              int minute) {
+
+                                                            textClock.setText(hourOfDay + ":" + minute);
+                                                            DateFormat dateFormat = new SimpleDateFormat("hh.mm aa");
+                                                            time = textClock.getText().toString();
+                                                            String finaltime = dateFormat.format(c.getTime());
+                                                            helper.setTaskTime(finaltime);
+
+                                                        }
+                                                    }, mHour, mMinute, false);
+                                            timePickerDialog.show();
                                         }
                                     });
 
