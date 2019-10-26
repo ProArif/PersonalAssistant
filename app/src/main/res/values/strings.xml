@@ -32,8 +32,8 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="maghrib">Maghrib</string>
-    <string name="dhuhr">Dhuhr</string>
-    <string name="fazr">Fazr</string>
-    <string name="asr">Asr</string>
-    <string name="isha">Isha</string>
+    <string name="dhuhr">Dhuhr  </string>
+    <string name="fazr">Fazr     </string>
+    <string name="asr">Asr    </string>
+    <string name="isha">Isha   </string>
 </resources>

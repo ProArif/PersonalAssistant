@@ -101,7 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2"
+            android:weightSum="3"
             android:id="@+id/fazr_layout">
 
             <TextView
@@ -122,7 +122,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/fazr"
                 android:text="4:41 AM"
-                android:padding="10dp"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:textColor="@android:color/black"
@@ -131,12 +130,24 @@
 
             </TextView>
 
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/alarm1"
+                android:gravity="end"
+                android:src="@drawable/ic_add_alarm"
+                android:layout_gravity = "center"
+                >
+
+            </ImageButton>
+
+
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2"
+            android:weightSum="3"
             android:id="@+id/zohr_layout">
 
             <TextView
@@ -157,7 +168,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/zohr"
                 android:text="4:41 AM"
-                android:padding="10dp"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:textColor="@android:color/black"
@@ -165,13 +175,22 @@
                 android:textStyle="bold">
 
             </TextView>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/alarm2"
+                android:src="@drawable/ic_add_alarm"
+                android:layout_gravity = "center"
+                >
+
+            </ImageButton>
 
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2"
+            android:weightSum="3"
             android:id="@+id/achr_layout">
 
             <TextView
@@ -193,7 +212,6 @@
                 android:id="@+id/achr"
                 android:text="4:41 AM"
                 android:gravity="center"
-                android:padding="10dp"
                 android:layout_weight="1"
                 android:textColor="@android:color/black"
                 android:textSize="25sp"
@@ -201,12 +219,22 @@
 
             </TextView>
 
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/alarm3"
+                android:src="@drawable/ic_add_alarm"
+                android:layout_gravity = "center"
+                >
+
+            </ImageButton>
+
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2"
+            android:weightSum="3"
             android:id="@+id/magrib_layout">
 
             <TextView
@@ -228,7 +256,6 @@
                 android:id="@+id/magrib"
                 android:text="4:41 AM"
                 android:gravity="center"
-                android:padding="10dp"
                 android:layout_weight="1"
                 android:textColor="@android:color/black"
                 android:textSize="25sp"
@@ -236,12 +263,22 @@
 
             </TextView>
 
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/alarm4"
+                android:src="@drawable/ic_add_alarm"
+                android:layout_gravity = "center"
+                >
+
+            </ImageButton>
+
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2"
+            android:weightSum="3"
             android:id="@+id/esa_layout">
 
             <TextView
@@ -263,13 +300,21 @@
                 android:id="@+id/esa"
                 android:text="4:41 AM"
                 android:gravity="center"
-                android:padding="10dp"
                 android:layout_weight="1"
                 android:textColor="@android:color/black"
                 android:textSize="25sp"
                 android:textStyle="bold">
 
             </TextView>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/alarm5"
+                android:src="@drawable/ic_add_alarm"
+                android:layout_gravity = "center"
+                >
+
+            </ImageButton>
 
         </LinearLayout>
 

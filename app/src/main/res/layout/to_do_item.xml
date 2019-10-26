@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:weightSum="2">
+    android:background="#e7e0df"
+    android:weightSum="2"
+    android:layout_marginBottom="7dp">
 
     <TextView
         android:layout_width="0dp"

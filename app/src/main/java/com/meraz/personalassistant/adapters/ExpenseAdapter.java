@@ -52,8 +52,8 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseD
     public ExpenseDataViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_exp_item,parent,false);
         dailyExpenses = new DailyExpenses();
-        mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         if (user != null) {
             uid = user.getUid();

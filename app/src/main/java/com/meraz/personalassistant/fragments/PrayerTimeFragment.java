@@ -1,9 +1,17 @@
 package com.meraz.personalassistant.fragments;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +33,10 @@ import com.meraz.personalassistant.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.Locale;
+import java.util.Objects;
+
 
 public class PrayerTimeFragment extends Fragment {
 
@@ -32,11 +44,15 @@ public class PrayerTimeFragment extends Fragment {
     String tag_json_obj = "json_obj_req";
     AlertDialog pDialog;
     private Context context;
-    private TextView tvFazr,tvDhuhr,tvAsr,tvMaghrib,tvIsha,tvLoc;
+    private TextView tvFazr, tvDhuhr, tvAsr, tvMaghrib, tvIsha, tvLoc;
     private EditText edt_search;
-    private String mFazr,mDhuhr,mAsr,mMaghrib,mIsha,mLocation,mCountry,mState,mCity,loc;
+    private String mFazr, mDhuhr, mAsr, mMaghrib, mIsha, mLocation, mCountry, mState, mCity, loc,cityName;
     private Button btn_search;
     private static final String TAG = "tag";
+
+    private LocationManager locationManager;
+    private double lat, lng;
+    private Location location;
 
 
     public PrayerTimeFragment() {
@@ -60,6 +76,28 @@ public class PrayerTimeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view;
         context = getContext();
+
+        locationManager = (LocationManager) (context != null ? context
+                .getSystemService(Context.LOCATION_SERVICE) : null);
+        if ( ContextCompat.checkSelfPermission( context, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+
+            ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()), new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  },
+                    1 );
+        }
+        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        lat = location.getLatitude();
+        lng = location.getLongitude();
+
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        try {
+             cityName = geocoder.getFromLocation(lat, lng, 1).get(0).getCountryName();
+             url = "https://muslimsalat.com/"+cityName+".json?key=f8b1de686f9d4bfa0fcf8ecb6b7adad3";
+             searchLoc();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_prayer, container, false);
         tvFazr = view.findViewById(R.id.fazr);
@@ -86,6 +124,17 @@ public class PrayerTimeFragment extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(context, "Turn on location", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     private void searchLoc() {
