@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -29,10 +30,9 @@ public class LoginActivity extends AppCompatActivity {
     private TextView tvForgot,tvCreate;
     private EditText edtEmail,edtPassword,edtRegE,edtRegP;
     private Button btnLogin;
-
     private String email,password,emailReg,passwordReg;
-
     private FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,11 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.password);
         btnLogin = findViewById(R.id.login);
 
+        SharedPreferences prefs = getSharedPreferences("credentials", MODE_PRIVATE);
+        boolean isLoggedIn = prefs.getBoolean("isLoggedIn", false);
+        if (isLoggedIn) {
+            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+        }
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -62,7 +67,6 @@ public class LoginActivity extends AppCompatActivity {
         tvCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                 // Get the layout inflater
@@ -91,6 +95,13 @@ public class LoginActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                                     if (task.isSuccessful()){
+
+                                                        //save credentials to shared preferences
+//                                                        editor.putBoolean("Registered", true);
+//                                                        editor.putString("Email",emailReg);
+//                                                        editor.putString("Pass",passwordReg);
+//                                                        editor.apply();
+
                                                         Toast.makeText(LoginActivity.this,"Registration Successful.Please Login",Toast.LENGTH_LONG).show();
                                                     }else {
                                                         Toast.makeText(LoginActivity.this,task.getException().toString(),Toast.LENGTH_LONG).show();
@@ -124,6 +135,10 @@ public class LoginActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()){
                                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                        SharedPreferences.Editor editor = getSharedPreferences("credentials", MODE_PRIVATE).edit();
+                                        editor.putString(email, password);
+                                        editor.putBoolean("isLoggedIn", true );
+                                        editor.apply();
                                     }
                                 }
                             }).addOnFailureListener(new OnFailureListener() {

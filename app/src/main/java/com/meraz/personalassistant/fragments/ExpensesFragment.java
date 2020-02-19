@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -57,6 +58,7 @@ public class ExpensesFragment extends Fragment {
     private DatabaseReference reference;
     private float initialX, initialY;
     private  View view;
+    private FloatingActionButton addExp;
 
 
 
@@ -100,8 +102,14 @@ public class ExpensesFragment extends Fragment {
             view = inflater.inflate(R.layout.fragment_expenses, container, false);
             context = getContext();
             exp_recycler = view.findViewById(R.id.expRecycler);
+            addExp = view.findViewById(R.id.addExp);
 
-            //db = FirebaseFirestore.getInstance();
+            addExp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showAddExpenseDialog();
+                }
+            });
 
             mData = new ArrayList<>();
             adapter = new ExpenseAdapter(context,mData);

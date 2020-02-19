@@ -11,6 +11,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,6 +30,7 @@
                 android:gravity="center"
                 android:padding="10dp"
                 android:layout_weight="2"
+                android:fontFamily="@font/armata"
                 android:textColor="@android:color/black"
                 android:textSize="25sp"
                 android:hint="@string/enter_your_city"
@@ -38,6 +44,9 @@
                 android:id="@+id/btnSearch"
                 android:text="@string/search"
                 android:textColor="#7f7f7f"
+                android:focusable="true"
+                android:clickable="true"
+                android:fontFamily="@font/armata"
                 android:padding="10dp"
                 android:gravity="center"
                 android:layout_weight="1"
@@ -47,6 +56,7 @@
             </Button>
 
         </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,7 +69,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Location"
+                android:text="@string/location"
+                android:fontFamily="@font/armata"
                 android:gravity="center"
                 android:padding="10dp"
                 android:layout_weight="1"
@@ -73,7 +84,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/loc"
-                android:text="Bangladesh"
+                android:text="@string/bangladesh"
+                android:fontFamily="@font/armata"
                 android:padding="10dp"
                 android:gravity="center"
                 android:layout_weight="1"
@@ -88,7 +100,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Prayer Timings"
+            android:text="@string/prayer_timings"
+            android:fontFamily="@font/armata"
             android:layout_margin="10dp"
             android:layout_gravity="center"
             android:padding="10dp"
@@ -110,6 +123,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/fazr"
                 android:gravity="center"
+                android:fontFamily="@font/armata"
                 android:padding="10dp"
                 android:layout_weight="1"
                 android:textColor="@android:color/black"
@@ -123,6 +137,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/fazr"
                 android:text="4:41 AM"
+                android:fontFamily="@font/armata"
                 android:padding="10dp"
                 android:gravity="center"
                 android:layout_weight="1"
@@ -132,16 +147,6 @@
 
             </TextView>
 
-<!--            <ImageButton-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:id="@+id/alarm1"-->
-<!--                android:gravity="end"-->
-<!--                android:src="@drawable/ic_add_alarm"-->
-<!--                android:layout_gravity = "center"-->
-<!--                >-->
-
-<!--            </ImageButton>-->
 
 
         </LinearLayout>
@@ -157,6 +162,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/dhuhr"
                 android:gravity="center"
+                android:fontFamily="@font/armata"
                 android:padding="10dp"
                 android:layout_weight="1"
                 android:textColor="@android:color/black"
@@ -170,6 +176,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/zohr"
                 android:text="4:41 AM"
+                android:fontFamily="@font/armata"
                 android:padding="10dp"
                 android:gravity="center"
                 android:layout_weight="1"
@@ -178,15 +185,7 @@
                 android:textStyle="bold">
 
             </TextView>
-<!--            <ImageButton-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:id="@+id/alarm2"-->
-<!--                android:src="@drawable/ic_add_alarm"-->
-<!--                android:layout_gravity = "center"-->
-<!--                >-->
 
-<!--            </ImageButton>-->
 
         </LinearLayout>
         <LinearLayout
@@ -202,6 +201,7 @@
                 android:text="@string/asr"
                 android:gravity="center"
                 android:padding="10dp"
+                android:fontFamily="@font/armata"
                 android:layout_weight="1"
                 android:textColor="@android:color/black"
                 android:textSize="25sp"
@@ -214,6 +214,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/achr"
                 android:text="4:41 AM"
+                android:fontFamily="@font/armata"
                 android:padding="10dp"
                 android:gravity="center"
                 android:layout_weight="1"
@@ -223,15 +224,7 @@
 
             </TextView>
 
-<!--            <ImageButton-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:id="@+id/alarm3"-->
-<!--                android:src="@drawable/ic_add_alarm"-->
-<!--                android:layout_gravity = "center"-->
-<!--                >-->
 
-<!--            </ImageButton>-->
 
         </LinearLayout>
         <LinearLayout
@@ -247,6 +240,7 @@
                 android:text="@string/maghrib"
                 android:gravity="center"
                 android:padding="10dp"
+                android:fontFamily="@font/armata"
                 android:layout_weight="1"
                 android:textColor="@android:color/black"
                 android:textSize="25sp"
@@ -259,6 +253,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/magrib"
                 android:text="4:41 AM"
+                android:fontFamily="@font/armata"
                 android:padding="10dp"
                 android:gravity="center"
                 android:layout_weight="1"
@@ -268,15 +263,7 @@
 
             </TextView>
 
-<!--            <ImageButton-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:id="@+id/alarm4"-->
-<!--                android:src="@drawable/ic_add_alarm"-->
-<!--                android:layout_gravity = "center"-->
-<!--                >-->
 
-<!--            </ImageButton>-->
 
         </LinearLayout>
         <LinearLayout
@@ -292,6 +279,7 @@
                 android:text="@string/isha"
                 android:padding="10dp"
                 android:layout_weight="1"
+                android:fontFamily="@font/armata"
                 android:textColor="@android:color/black"
                 android:textSize="25sp"
                 android:gravity="center"
@@ -304,6 +292,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/esa"
                 android:text="4:41 AM"
+                android:fontFamily="@font/armata"
                 android:padding="10dp"
                 android:gravity="center"
                 android:layout_weight="1"
@@ -312,15 +301,7 @@
                 android:textStyle="bold">
 
             </TextView>
-<!--            <ImageButton-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:id="@+id/alarm5"-->
-<!--                android:src="@drawable/ic_add_alarm"-->
-<!--                android:layout_gravity = "center"-->
-<!--                >-->
 
-<!--            </ImageButton>-->
 
         </LinearLayout>
 

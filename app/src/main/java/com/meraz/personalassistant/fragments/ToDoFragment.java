@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -82,6 +83,7 @@ public class ToDoFragment extends Fragment {
     private FirebaseUser user;
     private FirebaseDatabase database;
     private DatabaseReference reference;
+    private FloatingActionButton addTodo;
 
 
     @Override
@@ -110,7 +112,14 @@ public class ToDoFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.todo_fragment, container, false);
         context = getContext();
-//        db = FirebaseFirestore.getInstance();
+
+        addTodo = view.findViewById(R.id.addToDo);
+        addTodo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddTaskDialog();
+            }
+        });
 
         task_recy = view.findViewById(R.id.taskRecycler);
         mData = new ArrayList<>();

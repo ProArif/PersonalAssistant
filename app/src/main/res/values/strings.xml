@@ -40,4 +40,10 @@
     <string name="enter_your_city">Enter your City</string>
     <string name="reset_password">Reset Password</string>
     <string name="enter_your_registered_email">Enter your registered email</string>
+    <string name="go_to_super_market">Go to super market</string>
+    <string name="_5_10_am">5:10 AM</string>
+    <string name="_7_feb">7 Feb</string>
+    <string name="location">Location</string>
+    <string name="bangladesh">Bangladesh</string>
+    <string name="prayer_timings">Prayer Timings</string>
 </resources>

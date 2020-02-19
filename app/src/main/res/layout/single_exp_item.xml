@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
+    android:layout_margin="2dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
@@ -10,22 +10,22 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:padding="10dp"
-        app:cardCornerRadius="7dp">
+        app:cardCornerRadius="5dp">
 
 
         <RelativeLayout
-            android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:background="@android:color/darker_gray"
-            android:padding="8dp">
+            android:layout_height="wrap_content"
+            android:background="#3498DB"
+            android:padding="10dp">
 
             <TextView
-                android:layout_height="wrap_content"
+                android:id="@+id/expenseRankTV"
                 android:layout_width="wrap_content"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/armata"
                 android:text="@string/_1"
-                android:id="@+id/expenseRankTV"/>
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tv_expenseTitle"
@@ -34,8 +34,9 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@id/expenseRankTV"
+                android:fontFamily="@font/armata"
                 android:textColor="#FFFFFF"
-                android:textSize="17sp"
+                android:textSize="21sp"
                 android:textStyle="bold|italic" />
 
             <TextView
@@ -43,10 +44,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/expenseRankTV"
-                android:fontFamily="sans-serif"
-                android:text="@string/date"
                 android:layout_marginTop="8dp"
-                android:textSize="15sp"/>
+                android:fontFamily="@font/armata"
+                android:text="@string/date"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
 
             <TextView
@@ -57,7 +59,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
                 android:layout_toEndOf="@+id/tv"
-                android:fontFamily="sans-serif"
+                android:fontFamily="@font/armata"
                 android:text="@string/wed_12_2018"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp"
@@ -69,12 +71,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/expenseRankTV"
-                android:text="@string/amount"
-                android:fontFamily="sans-serif"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
                 android:layout_toStartOf="@+id/tv_expenseAmount"
+                android:fontFamily="@font/armata"
+                android:text="@string/amount"
                 android:textSize="15sp"
-                android:layout_marginEnd="4dp"/>
+                android:textStyle="bold" />
 
 
             <TextView
@@ -82,13 +85,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/expenseRankTV"
-                android:text="@string/_10000"
-                android:textStyle="bold|italic"
-                android:textColor="#FFFFFF"
-                android:fontFamily="sans-serif"
-                android:layout_marginTop="8dp"
                 android:layout_alignParentEnd="true"
-                android:textSize="15sp"/>
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/armata"
+                android:text="@string/_10000"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold|italic" />
 
         </RelativeLayout>
 

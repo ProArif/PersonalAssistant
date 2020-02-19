@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -24,11 +23,8 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.meraz.personalassistant.AppController;
 import com.meraz.personalassistant.R;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-
 
 
 public class PrayerTimeFragment extends Fragment {
@@ -99,6 +95,7 @@ public class PrayerTimeFragment extends Fragment {
             public void onClick(View view) {
                 mLocation = edt_search.getText().toString();
                 if (mLocation.isEmpty()){
+                    edt_search.setError("Please Enter Your City!");
                     Toast.makeText(context,"Please Enter Your City",Toast.LENGTH_LONG).show();
                 } else {
                     url = "https://muslimsalat.com/"+mLocation+".json?key=f8b1de686f9d4bfa0fcf8ecb6b7adad3";
@@ -171,10 +168,7 @@ public class PrayerTimeFragment extends Fragment {
         AppController.getInstance().addToRequestQueue(jsonObjReq,tag_json_obj);
     }
 
-//    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//
-//    }
+
 
     @Override
     public void onAttach(Context context) {

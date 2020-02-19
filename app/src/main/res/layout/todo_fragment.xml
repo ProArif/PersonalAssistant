@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -7,19 +7,40 @@
     tools:context=".fragments.ToDoFragment"
     android:layout_marginBottom="70dp">
 
-
-
-        <androidx.recyclerview.widget.RecyclerView
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:listitem="@layout/to_do_item"
-            android:scrollbars="vertical"
-            android:scrollbarStyle="insideInset"
-            android:id="@+id/taskRecycler"/>
+            android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:listitem="@layout/to_do_item"
+                            android:scrollbars="vertical"
+                            android:scrollbarStyle="insideInset"
+                            android:id="@+id/taskRecycler"/>
+
+                </LinearLayout>
+
+        </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/add_todo"
+        android:id="@+id/addToDo"
+        app:maxImageSize="40dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginEnd="3dp">
+
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
 
 
 
-
-
-</ScrollView>
+</RelativeLayout>
