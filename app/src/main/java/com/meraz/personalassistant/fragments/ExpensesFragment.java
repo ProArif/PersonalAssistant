@@ -1,6 +1,9 @@
 package com.meraz.personalassistant.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -33,6 +36,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.meraz.personalassistant.R;
+import com.meraz.personalassistant.activities.LoginActivity;
 import com.meraz.personalassistant.adapters.ExpenseAdapter;
 import com.meraz.personalassistant.helpers.DailyExpenses;
 import java.text.SimpleDateFormat;
@@ -40,6 +44,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class ExpensesFragment extends Fragment {
@@ -140,40 +146,7 @@ public class ExpensesFragment extends Fragment {
                     Toast.makeText(context, databaseError.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
-//        db.collection("expenses").document(uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//            @Override
-//            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                //adapter.notifyDataSetChanged();
-//                String amount = documentSnapshot.getString("exp_amount");
-//                String title = documentSnapshot.getString("exp_title");
-//                String date = documentSnapshot.getString("exp_date");
-//                DailyExpenses helper = new DailyExpenses(title,amount,date);
-//                mData.add(helper);
-//                adapter.notifyDataSetChanged();
-//                Toast.makeText(context,"Successfully loaded",Toast.LENGTH_LONG).show();
-//
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//               Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
-//            }
-//        });
-            //.addSnapshotListener(new EventListener<QuerySnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-//                for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()){
-//                    if (documentChange.getType() == DocumentChange.Type.ADDED){
-//                        DailyExpenses helper = documentChange.getDocument().toObject(DailyExpenses.class);
-//                        mData.add(helper);
-//                        adapter.notifyDataSetChanged();
-//                    }
-//                }
-//           }
-            //      });
 
-
-//        docRef = db.collection("expenses").document(uid);
             return view;
     }
 
@@ -193,6 +166,45 @@ public class ExpensesFragment extends Fragment {
 
             case R.id.addExpense:
                 showAddExpenseDialog();
+
+            case R.id.logout:
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
+                builder1.setMessage("Do you want to Logout?");
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                if (user != null){
+                                    SharedPreferences.Editor editor = getActivity().getSharedPreferences("credentials", MODE_PRIVATE).edit();
+
+                                    clearStack();
+                                    Intent n = new Intent(getActivity(), LoginActivity.class);
+                                    n.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                                            Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    editor.clear();
+                                    editor.apply();
+                                    startActivity(n);
+                                    mAuth.signOut();
+                                    //finish();
+                                }
+
+                                dialog.cancel();
+                                //startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                            }
+                        });
+
+                builder1.setNegativeButton(
+                        "No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -314,6 +326,26 @@ public class ExpensesFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
 //        mListener = null;
+    }
+
+    public void clearStack() {
+        //Here we are clearing back stack fragment entries
+        int backStackEntry = getActivity().getSupportFragmentManager().getBackStackEntryCount();
+        if (backStackEntry > 0) {
+            for (int i = 0; i < backStackEntry; i++) {
+                getActivity().getSupportFragmentManager().popBackStackImmediate();
+            }
+        }
+
+        //Here we are removing all the fragment that are shown here
+        if (getActivity().getSupportFragmentManager().getFragments() != null && getActivity().getSupportFragmentManager().getFragments().size() > 0) {
+            for (int i = 0; i < getActivity().getSupportFragmentManager().getFragments().size(); i++) {
+                Fragment mFragment = getActivity().getSupportFragmentManager().getFragments().get(i);
+                if (mFragment != null) {
+                    getActivity().getSupportFragmentManager().beginTransaction().remove(mFragment).commit();
+                }
+            }
+        }
     }
 
     /**

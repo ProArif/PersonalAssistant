@@ -79,12 +79,14 @@ public class LoginActivity extends AppCompatActivity {
                         // Add action buttons
                         .setPositiveButton(R.string.register, new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int id) {
+                            public void onClick(final DialogInterface dialog, int id) {
                                 edtRegE = view.findViewById(R.id.emailReg);
                                 edtRegP = view.findViewById(R.id.passwordReg);
 
+
                                 emailReg = edtRegE.getText().toString();
                                 passwordReg = edtRegP.getText().toString();
+
 
                                 if (emailReg.isEmpty() && passwordReg.isEmpty() && !Patterns.EMAIL_ADDRESS.matcher(emailReg).matches()){
                                     Toast.makeText(LoginActivity.this,"Please Enter email and password correctly",Toast.LENGTH_LONG).show();

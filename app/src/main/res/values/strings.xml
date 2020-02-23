@@ -46,4 +46,5 @@
     <string name="location">Location</string>
     <string name="bangladesh">Bangladesh</string>
     <string name="prayer_timings">Prayer Timings</string>
+    <string name="logout">Logout</string>
 </resources>

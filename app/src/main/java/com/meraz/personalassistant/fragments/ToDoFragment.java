@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -39,6 +42,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.meraz.personalassistant.R;
+import com.meraz.personalassistant.activities.LoginActivity;
+import com.meraz.personalassistant.activities.MainActivity;
 import com.meraz.personalassistant.adapters.ToDoRecyclerAdapter;
 import com.meraz.personalassistant.helpers.ToDoTaskHelper;
 
@@ -48,6 +53,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class ToDoFragment extends Fragment {
@@ -156,30 +163,6 @@ public class ToDoFragment extends Fragment {
             }
         });
 
-//        db.collection("tasks").addSnapshotListener(new EventListener<QuerySnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-//                for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()){
-//                    if (documentChange.getType() == DocumentChange.Type.ADDED){
-//                        ToDoTaskHelper helper = documentChange.getDocument().toObject(ToDoTaskHelper.class);
-//                        mData.add(helper);
-//                        adapter.notifyDataSetChanged();
-//                    }
-//                }
-//            }
-//        });
-
-
-
-//        addTask.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//
-//
-//            }
-//        });
           return view;
     }
 
@@ -300,22 +283,7 @@ public class ToDoFragment extends Fragment {
                         }
                     }
                 });
-//                db.collection("tasks").document(uid)
-//                        .set(taskHelper)
-//                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        alertDialog.dismiss();
-//                        Toast.makeText(context, "Task" +
-//                                " Added.", Toast.LENGTH_LONG).show();
-//                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-//
-//                    }
-//                });
+
             }
         });
     }
@@ -333,6 +301,45 @@ public class ToDoFragment extends Fragment {
             case R.id.addTask:
                 showAddTaskDialog();
                 break;
+
+            case R.id.logout:
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
+                builder1.setMessage("Do you want to Logout?");
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                if (user != null){
+                                    SharedPreferences.Editor editor = getActivity().getSharedPreferences("credentials", MODE_PRIVATE).edit();
+
+                                    clearStack();
+                                    Intent n = new Intent(getActivity(), LoginActivity.class);
+                                    n.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                                            Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    editor.clear();
+                                    editor.apply();
+                                    startActivity(n);
+                                    mAuth.signOut();
+                                    //finish();
+                                }
+
+                                dialog.cancel();
+                                //startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                            }
+                        });
+
+                builder1.setNegativeButton(
+                        "No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -344,6 +351,26 @@ public class ToDoFragment extends Fragment {
 //        if (mListener != null) {
 //            mListener.onFragmentInteraction(uri);
 //        }
+    }
+
+    public void clearStack() {
+        //Here we are clearing back stack fragment entries
+        int backStackEntry = getActivity().getSupportFragmentManager().getBackStackEntryCount();
+        if (backStackEntry > 0) {
+            for (int i = 0; i < backStackEntry; i++) {
+                getActivity().getSupportFragmentManager().popBackStackImmediate();
+            }
+        }
+
+        //Here we are removing all the fragment that are shown here
+        if (getActivity().getSupportFragmentManager().getFragments() != null && getActivity().getSupportFragmentManager().getFragments().size() > 0) {
+            for (int i = 0; i < getActivity().getSupportFragmentManager().getFragments().size(); i++) {
+                Fragment mFragment = getActivity().getSupportFragmentManager().getFragments().get(i);
+                if (mFragment != null) {
+                    getActivity().getSupportFragmentManager().beginTransaction().remove(mFragment).commit();
+                }
+            }
+        }
     }
 
     @Override

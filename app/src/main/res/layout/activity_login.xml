@@ -4,7 +4,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-    android:background="@color/colorAccent"
+android:background="@color/colorAccent"
 android:id="@+id/loginActivity"
 tools:context=".activities.LoginActivity">
 
@@ -46,6 +46,7 @@ tools:context=".activities.LoginActivity">
         android:fontFamily="@font/armata"
         android:layout_marginTop="5dp"
         android:padding="10dp"
+        android:textStyle="bold"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:inputType="textEmailAddress"
@@ -66,11 +67,12 @@ tools:context=".activities.LoginActivity">
         />
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="58dp"
         android:gravity="center"
         android:id="@+id/password"
         android:inputType="textPassword"
         android:padding="10dp"
+        android:textStyle="bold"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
@@ -79,7 +81,7 @@ tools:context=".activities.LoginActivity">
     <TextView
         android:id="@+id/forgot"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:text="@string/forgot_password"
         android:textStyle="normal"
         android:textSize="20sp"
@@ -87,6 +89,7 @@ tools:context=".activities.LoginActivity">
         android:fontFamily="@font/armata"
         android:gravity="end"
         android:linksClickable="true"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"/>
 
     <Button
@@ -107,7 +110,7 @@ tools:context=".activities.LoginActivity">
     <TextView
         android:id="@+id/createAcc"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:text="@string/create_a_new_account"
         android:textStyle="bold"
         android:textSize="20sp"

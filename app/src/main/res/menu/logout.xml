@@ -2,13 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/addTask"
-        android:title="@string/add_task"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_add_task"/>
-
     <item android:id="@+id/logout"
         android:title="@string/logout"
         android:icon="@drawable/logout"
         app:showAsAction="always" />
-</menu>
+
+    </menu>

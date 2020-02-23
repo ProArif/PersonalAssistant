@@ -1,23 +1,22 @@
 package com.meraz.personalassistant.activities;
 
-import android.os.Bundle;
 
+import android.os.Bundle;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.meraz.personalassistant.R;
 import com.meraz.personalassistant.fragments.ExpensesFragment;
 import com.meraz.personalassistant.fragments.PrayerTimeFragment;
 import com.meraz.personalassistant.fragments.ToDoFragment;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.view.MenuItem;
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -56,5 +55,8 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.frame,fragment);
         transaction.commit();
     }
+
+
+
 
 }

@@ -3,6 +3,7 @@ package com.meraz.personalassistant.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -52,6 +53,7 @@ public class ResetPassActivity extends AppCompatActivity {
                     });
                 }else
                 {
+                    edt_email.setError("Enter Email");
                     Toast.makeText(ResetPassActivity.this,"Enter your email first",Toast.LENGTH_LONG).show();
                 }
 
@@ -59,5 +61,11 @@ public class ResetPassActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(ResetPassActivity.this, LoginActivity.class));
     }
 }
